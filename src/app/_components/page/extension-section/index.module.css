@@ -1,0 +1,90 @@
+@keyframes scrollText {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.container {
+  padding-bottom: 20px;
+}
+
+.banner {
+  background-color: #EBEBEB;
+  max-width: 100%;
+  overflow: hidden;
+  padding: 30px 20px 40px 20px;
+  position: relative;
+  width: 100%;
+}
+
+.banner p {
+  animation: scrollText 20s linear infinite;
+  color: black;
+  display: block;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+}
+
+.images {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: auto;
+  max-width: 90%;
+}
+
+.chromePiano {
+  margin-top: 10px;
+  max-height: 250px;
+  width: 100%;
+}
+
+.chromeWebStore {
+  background-color: white;
+  box-shadow: 2px 2px 20px 2px #ffffff26;
+  max-height: 65px;
+  max-width: 200px;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding-bottom: 0;
+  }
+
+  .banner p {
+    animation: scrollText 30s linear infinite;
+  }
+
+  .chromePiano {
+    margin-top: 50px;
+    max-height: 500px;
+    max-width: 470px;
+  }
+
+  .chromeWebStore {
+    max-height: 62px;
+    max-width: 200px;
+  }
+
+  .images {
+    flex-direction: row;
+  }
+}
+
+@media (min-width: 900px) {
+  .chromePiano {
+    max-height: 500px;
+    max-width: 600px;
+  }
+
+  .chromeWebStore {
+    max-height: 76px;
+    max-width: 300px;
+  }
+}

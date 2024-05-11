@@ -1,0 +1,182 @@
+@keyframes floaty {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes shine {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0);
+  }
+  50% {
+    box-shadow: 0 0 20px rgb(255, 255, 255);
+  }
+}
+
+@keyframes slide {
+  0%, 100% {
+    left: 0;
+    transform: scaleX(1); /* Normal orientation when starting and completing the cycle */
+  }
+  49.999% {
+    left: calc(100% - 75px); /* Moves to the far right just before flipping */
+    transform: scaleX(1); /* Ensure it remains unflipped until the very end */
+  }
+  50% {
+    left: calc(100% - 75px); 
+    transform: scaleX(-1); /* Flip right at 50% */
+  }
+  99.999% {
+    left: 0;
+    transform: scaleX(-1); /* Continue the flip until the very end */
+  }
+}
+
+@keyframes floatyCloud {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.wizardWrapper {
+  align-items: center;
+  bottom: 5px;
+  display: flex;
+  flex-direction: column-reverse;
+  left: 0;
+  margin-left: auto;
+  margin-right: auto;
+  position: absolute;
+  right: 0;
+  width: fit-content;
+}
+
+.floatingWizard {
+  animation: floaty 1.5s infinite alternate ease-in-out;
+  animation-play-state: paused;
+  cursor: pointer;
+  display: inline-block;
+  will-change: transform;
+}
+
+.floatingWizard::before {
+  background: rgba(255, 255, 255, 0);
+  border-radius: 50%;
+  content: "";
+  opacity: 0;
+  position: absolute;
+  top: -10px; left: -10px; right: -10px; bottom: -10px;
+  transition: background 0.5s ease-out;
+}
+
+.wizardText {
+  color: black;
+  cursor: pointer;
+  font-size: 0.5rem;
+}
+
+.wizardText:hover ~ .floatingWizard,
+.floatingWizard:hover {
+  animation-play-state: running;
+}
+
+.wizardText:hover ~ .floatingWizard::before,
+.floatingWizard:hover::before {
+  animation: none;
+  background: rgba(240, 249, 2, 0.2);
+  opacity: 1;
+}
+
+.landingSectionContainer {
+  background-color: #D5D5D5;
+  height: max(min(80vh, 80%), 60vh);
+  padding-bottom: 40px;
+  position: relative;
+}
+
+.commonContentContainer {
+  display: flex;
+  color: black;
+  flex-direction: column;
+  padding-top: 100px;
+  row-gap: 37px;
+  max-width: 1160px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.commonText {
+  display: flex;
+  flex-direction: column;
+  row-gap: 27px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.commonContentTitle {
+  color: black;
+  font-size: 1rem;
+}
+
+.commonContentSubtitle {
+  font-size: 0.8rem;
+  line-height: 1.325rem;
+}
+
+.animationContainer {
+  height: 100px;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+.animationContainer img {
+  animation: slide 15s cubic-bezier(0.42, 0, 0.58, 1) infinite;
+  position: absolute;
+}
+
+.clouds {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.cloud {
+  animation: floatyCloud 4s infinite alternate ease-in-out;
+}
+
+.cloudDelay1 {
+  margin-top: 20px;
+  animation: floatyCloud 3s infinite alternate ease-in-out;
+}
+
+.stand {
+  display: flex;
+  justify-content: center;
+}
+
+.standFloat {
+  animation: floatyCloud 7s infinite alternate ease-in-out;
+}
+
+@media (min-width: 768px) {  
+  .commonText {
+    row-gap: 37px;
+  }
+
+  .commonContentTitle {
+    font-size: 2.25rem;
+    text-align: center;
+  }
+
+  .commonContentSubtitle {
+    font-size: 1rem;
+    line-height: 1.625rem;
+    text-align: center;
+  }
+}

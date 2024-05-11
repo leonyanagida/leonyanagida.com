@@ -1,0 +1,116 @@
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 10px 5px rgba(130, 170, 255, 0.5);
+  }
+  100% {
+    box-shadow: 0 0 20px 15px rgba(130, 170, 255, 0.8);
+  }
+}
+
+@keyframes sparkle {
+  from {
+    opacity: 1;
+    transform: scale(0);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.5);
+  }
+}
+
+@keyframes trailFade {
+  to {
+    height: 0px;
+    opacity: 0;
+    width: 0px;
+  }
+}
+
+@keyframes trailFade {
+  to {
+    height: 0px;
+    opacity: 0;
+    width: 0px;
+  }
+}
+
+@keyframes clickFade {
+  from {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+  to {
+    opacity: 0;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.cursorFollower {
+  background-color: rgba(251, 255, 23, 0.6);
+  border-radius: 50%;
+  filter: blur(10px);
+  height: 40px;
+  pointer-events: none;
+  position: fixed;
+  transform: translate(-50%, -50%);
+  width: 40px;
+}
+
+.clicked {
+  animation: pulse 1s infinite alternate;
+  background-color: rgba(130, 170, 255, 0.6);
+  box-shadow: 0 0 15px 10px rgba(130, 170, 255, 0.75);
+  transform: scale(2.5);
+}
+
+.cursorFollower::after {
+  animation: sparkle 0.5s forwards;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.6) 10%, transparent 40%);
+  border-radius: 50%;
+  content: "";
+  display: none;
+  left: 50%;
+  height: 100%;
+  margin-top: -50%;
+  margin-left: -50%;
+  position: absolute;
+  top: 50%;
+  width: 100%;
+}
+
+.cursorFollower.clicked::after {
+  display: block;
+}
+
+.trail {
+  animation: trailFade 0.8s linear forwards;
+  background-color: rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(241, 241, 241, 0.8);
+  height: 10px;
+  opacity: 1;
+  position: fixed;
+  pointer-events: none;
+  transition: opacity 0.8s, width 0.8s, height 0.8s;
+  transform: translate(-50%, -50%);
+  width: 10px;
+}
+
+.clickEffect {
+  animation: clickFade 0.5s ease-out forwards;
+  background-color: rgba(255, 255, 130, 0.6);
+  border-radius: 50%;
+  box-shadow: 0 0 15px rgba(255, 255, 130, 0.9);
+  height: 50px;
+  pointer-events: none;
+  position: fixed;
+  transform: translate(-50%, -50%) scale(1);
+  width: 50px;
+}
+
+.magicWord {
+  color: #FFF;
+  font-size: 32px;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.85);
+  transform: translate(-50%, -50%);
+}

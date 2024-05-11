@@ -1,0 +1,13 @@
+@keyframes glowAnimation {
+  0%, 100% {
+    color: initial;
+  }
+  50% {
+    color: darkblue;
+    text-shadow: 0px 0px 10px rgba(0, 0, 255, 0.7);
+  }
+}
+
+.glow h3 {
+  animation: glowAnimation var(--animation-duration) ease-in-out infinite;
+}

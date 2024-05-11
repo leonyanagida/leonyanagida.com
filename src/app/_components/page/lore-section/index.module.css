@@ -1,0 +1,68 @@
+.loreSection {
+  min-height: 790px;
+  padding-bottom: 50px;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  max-width: 995px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 100px;
+  row-gap: 69px;
+}
+
+.lore {
+  font-size: 0.8rem;
+}
+
+.description {
+  font-size: 0.8rem;
+  line-height: 1.625rem;
+}
+
+.continueReadingLink {
+  color: rgb(63, 128, 255);
+}
+
+.imageContent {
+  display: flex;
+  flex-direction: column;
+  max-width: 1050px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 80px;
+}
+
+.doggos {
+  display: flex;
+  justify-content: space-between;
+}
+
+.doggo1 {
+  transform: scaleX(-1);
+}
+
+.doggo2 {
+  margin-top: 40px;
+  margin-right: 10px;
+}
+
+@media (min-width: 768px) {
+  .lore {
+    font-size: 1rem;
+  }
+
+  .description {
+    font-size: 1rem;
+    line-height: 1.825rem;
+  }
+
+  .doggo2 {
+    margin-top: 40px;
+    margin-right: 200px;
+  }
+}
