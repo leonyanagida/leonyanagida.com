@@ -9,6 +9,9 @@ export const metadata: Metadata = {
   title: "Leon Yanagida - Full-Stack Developer",
   description: "A creative thinker and developer who turns ideas into digital realities. Join me on a journey where passion meets practicality in the world of development",
   metadataBase: new URL("https://www.leonyanagida.com"),
+  icons: {
+    icon: "./favicon.ico",
+  }
 };
 
 export default function RootLayout({
