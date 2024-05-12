@@ -19,7 +19,7 @@ export default function LandingSection() {
 function WizardTime() {
   const [wizardMode, setWizardMode] = useState(false);
   
-  const isMobile = detectDeviceType();
+  const isMobile = detectDeviceType() === "mobile";
   const magicMessage = isMobile ? texts.buttons.mobile.wizardMode : texts.buttons.desktop.wizardMode;
   const initialMessage = isMobile ? texts.buttons.mobile.initial : texts.buttons.desktop.initial;
 
