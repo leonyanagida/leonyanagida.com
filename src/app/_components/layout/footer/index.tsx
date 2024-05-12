@@ -44,7 +44,7 @@ function Arrow({ showArrows }: { showArrows: boolean }) {
             transition: { duration: 0.5, ease: "easeInOut" }
           }}
         >
-          <Image src="/static/blue-arrow.png" alt="floating arrow" width={75} height={75} />
+          <Image src="/static/blue-arrow.png" alt={texts.alts.downArrow} priority={true} width={75} height={75} />
         </motion.div>
       )}
     </AnimatePresence>

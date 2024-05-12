@@ -41,7 +41,7 @@ function TextContent() {
   const title = texts.titles.fullStackDeveloper;
   const description = texts.descriptions.main;
 
-  const wordsToHighlight = ["your ideas"];
+  const wordsToHighlight = [...texts.descriptions.mainHighlights];
   const processedDescription = highlightText(description, wordsToHighlight);
 
   return (

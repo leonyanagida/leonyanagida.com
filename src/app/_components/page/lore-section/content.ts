@@ -10,4 +10,10 @@ export const texts = {
            challenge of turning ideas into digital reality...`,
     continueReading: "Continue Reading"
   },
+  alts: {
+    dog: "Dog sitting",
+  },
+  links: {
+    about: "/about",
+  },
 };

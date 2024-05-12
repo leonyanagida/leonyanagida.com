@@ -1,5 +1,5 @@
 "use client";
-import React, { createContext, useRef, useContext, useEffect, useState } from "react";
+import { createContext, useRef, useContext, useEffect, useState } from "react";
 import styles from "./index.module.css"
 
 interface FooterProvider {

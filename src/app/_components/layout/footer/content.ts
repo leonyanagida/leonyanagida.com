@@ -4,5 +4,8 @@ export const texts = {
   },
   email: {
     leonyanagida: "contact@leonyagida.com"
+  },
+  alts: {
+    downArrow: "Blue arrow pointing down"
   }
 }

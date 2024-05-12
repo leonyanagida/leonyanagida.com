@@ -5,6 +5,7 @@ export const texts = {
   descriptions: {
     main: `A developer specializing in turning your ideas
            into technical realities. I tailor the web to your needs.`,
+    mainHighlights: ["your ideas"]
   },
   emojis: {
     wizard: "🧙‍♂️",
