@@ -1,8 +1,0 @@
----
-deployment:
-  tasks:
-    - /bin/bash -lc 'export PATH=$PATH:$NODE_PATH_ADDITIONS && npm install'
-    - /bin/bash -lc 'export PATH=$PATH:$NODE_PATH_ADDITIONS && npm run build'
-    - /bin/bash -lc 'export PATH=$PATH:$NODE_PATH_ADDITIONS && npm install -g pm2'
-    - /bin/bash -lc 'export PATH=$PATH:$NODE_PATH_ADDITIONS && pm2 start --name "leon-yanagida" npm -- run start'
-
