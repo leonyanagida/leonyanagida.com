@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import { pressStart2P } from "@/app/_utils/fonts";
 import Footer from "./_components/layout/footer";
 import Header from "./_components/layout/header";
@@ -28,6 +29,9 @@ export default function RootLayout({
           <Footer />
         </FooterProvider>
       </body>
+      {process.env.GA_MEASUREMENT_ID && (
+        <GoogleAnalytics gaId={process.env.GA_MEASUREMENT_ID} />
+      )}
     </html>
   );
 }
