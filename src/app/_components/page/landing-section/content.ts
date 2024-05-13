@@ -20,7 +20,4 @@ export const texts = {
       wizardMode: "Click around with your new powers!"
     }
   },
-  warnings: {
-    explode: "The world explodes",
-  }
 };
