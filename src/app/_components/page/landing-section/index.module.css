@@ -104,7 +104,7 @@
   display: flex;
   color: black;
   flex-direction: column;
-  padding-top: 100px;
+  padding-top: 170px;
   row-gap: 37px;
   max-width: 1160px;
   margin-left: auto;
@@ -121,24 +121,13 @@
 
 .commonContentTitle {
   color: black;
-  font-size: 1rem;
+  font-size: 2rem;
+  line-height: 3rem;
 }
 
 .commonContentSubtitle {
   font-size: 0.8rem;
   line-height: 1.325rem;
-}
-
-.animationContainer {
-  height: 100px;
-  overflow: hidden;
-  position: relative;
-  width: 100%;
-}
-
-.animationContainer img {
-  animation: slide 15s cubic-bezier(0.42, 0, 0.58, 1) infinite;
-  position: absolute;
 }
 
 .clouds {
@@ -170,7 +159,7 @@
   }
 
   .commonContentTitle {
-    font-size: 2.25rem;
+    font-size: 2.8rem;
     text-align: center;
   }
 

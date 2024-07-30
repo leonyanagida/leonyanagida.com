@@ -3,11 +3,7 @@ export const texts = {
     lore: "About:"
   },
   descriptions: {
-    main: `Hello! My name is Leon. I have years of experience 
-           developing applications for the web.
-           My journey has not only been about solving problems but also
-           about crafting experiences that make an impact. I thrive on the
-           challenge of turning ideas into digital reality...`,
+    main: `Hello! My name is Leon. I have years of experience developing applications for the web. My journey has not only been about solving problems in the frontend but also in the backend systems as well... `,
     continueReading: "Continue Reading"
   },
   alts: {
