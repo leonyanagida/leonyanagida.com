@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import type { Metadata } from "next";
 import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
 import { pressStart2P } from "@/app/_utils/fonts";
@@ -20,6 +21,15 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const [consentGiven, setConsentGiven] = useState(false);
+
+  useEffect(() => {
+    const consent = localStorage.getItem('cookieConsent');
+    if (consent === 'accepted') {
+      setConsentGiven(true);
+    }
+  }, []);
+
   return (
     <html lang="en">
       {process.env.GTM && (
@@ -32,7 +42,7 @@ export default function RootLayout({
           <Footer />
         </FooterProvider>
       </body>
-      {process.env.GA_MEASUREMENT_ID && (
+      {consentGiven && process.env.GA_MEASUREMENT_ID && (
         <GoogleAnalytics gaId={process.env.GA_MEASUREMENT_ID} />
       )}
     </html>
