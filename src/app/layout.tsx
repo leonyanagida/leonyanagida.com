@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
-import { GoogleTagManager } from "@next/third-parties/google";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import { pressStart2P } from "@/app/_utils/fonts";
 import Footer from "./_components/layout/footer";
 import Header from "./_components/layout/header";
 import { FooterProvider } from "./_contexts/FooterContext";
-import CookieConsent from "./_utils/cookieConsent";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -23,9 +22,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      {process.env.GTM && (
-        <GoogleTagManager gtmId={process.env.GTM} />
-      )}
       <body className={pressStart2P.className}>
         <FooterProvider>
           <Header />
@@ -34,7 +30,7 @@ export default function RootLayout({
         </FooterProvider>
       </body>
       {process.env.GA_MEASUREMENT_ID && (
-        <CookieConsent gaId={process.env.GA_MEASUREMENT_ID} />
+        <GoogleAnalytics gaId={process.env.GA_MEASUREMENT_ID} />
       )}
     </html>
   );
