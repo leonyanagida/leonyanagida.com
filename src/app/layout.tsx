@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { GoogleAnalytics } from "@next/third-parties/google";
+import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
 import { pressStart2P } from "@/app/_utils/fonts";
 import Footer from "./_components/layout/footer";
 import Header from "./_components/layout/header";
@@ -22,6 +22,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      {process.env.GTM && (
+        <GoogleTagManager gtmId={process.env.GTM} />
+      )}
       <body className={pressStart2P.className}>
         <FooterProvider>
           <Header />
