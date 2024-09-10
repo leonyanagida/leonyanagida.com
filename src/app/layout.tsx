@@ -1,12 +1,10 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import type { Metadata } from "next";
-import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
+import { GoogleTagManager } from "@next/third-parties/google";
 import { pressStart2P } from "@/app/_utils/fonts";
 import Footer from "./_components/layout/footer";
 import Header from "./_components/layout/header";
 import { FooterProvider } from "./_contexts/FooterContext";
+import CookieConsent from "./_utils/cookieConsent";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -23,15 +21,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [consentGiven, setConsentGiven] = useState(false);
-
-  useEffect(() => {
-    const consent = localStorage.getItem('cookieConsent');
-    if (consent === 'accepted') {
-      setConsentGiven(true);
-    }
-  }, []);
-
   return (
     <html lang="en">
       {process.env.GTM && (
@@ -44,8 +33,8 @@ export default function RootLayout({
           <Footer />
         </FooterProvider>
       </body>
-      {consentGiven && process.env.GA_MEASUREMENT_ID && (
-        <GoogleAnalytics gaId={process.env.GA_MEASUREMENT_ID} />
+      {process.env.GA_MEASUREMENT_ID && (
+        <CookieConsent gaId={process.env.GA_MEASUREMENT_ID} />
       )}
     </html>
   );
