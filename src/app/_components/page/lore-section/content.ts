@@ -3,11 +3,11 @@ export const texts = {
     lore: "About:"
   },
   descriptions: {
-    main: `Hello! My name is Leon. I have years of experience developing applications for the web. My journey has not only been about solving problems in the frontend but also in the backend systems as well... `,
+    main: `Hey there! I'm Leon, your friendly full-stack developer. I've been building websites and apps for years, and yes—I still get excited every time I see something I've coded actually working (and not breaking… most of the time)...`,
     continueReading: "Continue Reading"
   },
   alts: {
-    dog: "Dog sitting",
+    dog: "A dog sitting",
   },
   links: {
     about: "/about",

@@ -18,10 +18,10 @@ export default function About() {
         ))}
       </div>
       <Image
-        src="/static/setup.png"
+        src="/static/doggo.jpg"
         alt={texts.alts.room}
-        width={250}
-        height={250}
+        width={150}
+        height={150}
         className={styles.img}
       />
     </main>
