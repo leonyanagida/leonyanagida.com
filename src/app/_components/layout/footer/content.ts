@@ -3,7 +3,7 @@ export const texts = {
     message: "Leon Yanagida | All Rights Reserved"
   },
   email: {
-    leonyanagida: "contact@leonyagida.com"
+    leonyanagida: "contact@leonyanagida.com"
   },
   alts: {
     downArrow: "Blue arrow pointing down"
