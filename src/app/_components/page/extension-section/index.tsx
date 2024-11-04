@@ -12,13 +12,15 @@ export default function ExtensionSection() {
         <p>{repeatedText}</p>
       </div>
       <div className={styles.images}>
-        <Image
-          src="/static/chrome-piano.svg"
-          alt={texts.alts.chromePiano}
-          width={500}
-          height={400}
-          className={styles.chromePiano}
-        />
+        <Link href={texts.links.chromePiano} target="_blank">
+          <Image
+            src="/static/chrome-piano.svg"
+            alt={texts.alts.chromePiano}
+            width={500}
+            height={400}
+            className={styles.chromePiano}
+          />
+        </Link>
         <Link href={texts.links.chromePiano} target="_blank">
           <Image
             src="/static/chrome-web-store.svg"
