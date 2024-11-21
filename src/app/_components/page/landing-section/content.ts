@@ -1,6 +1,6 @@
 export const texts = {
   titles: {
-    fullStackDeveloper: "Full-Stack Developer",
+    fullStackDeveloper: "Software Engineer",
   },
   descriptions: {
     main: `A developer specializing in turning your ideas
