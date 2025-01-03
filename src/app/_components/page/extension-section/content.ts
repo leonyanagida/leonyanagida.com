@@ -1,6 +1,6 @@
 export const texts = {
   banners: {
-    join: "Join 100,000+ users playing the Chrome Piano extension!",
+    join: "users have downloaded Chrome Piano!",
   },
   links: { 
     chromePiano: "https://chromewebstore.google.com/detail/chrome-piano/pjafcgbpdclmdeiipolenjgkikeldljl?hl=en"
