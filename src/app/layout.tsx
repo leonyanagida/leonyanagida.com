@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   description: "A creative thinker and developer who turns ideas into digital realities. Join me on a journey where passion meets practicality in the world of development",
   metadataBase: new URL("https://www.leonyanagida.com"),
   icons: {
-    icon: "./favicon.ico",
+    icon: "/favicon.ico",
   }
 };
 
