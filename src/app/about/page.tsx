@@ -18,13 +18,6 @@ export default function About() {
           </React.Fragment>
         ))}
       </div>
-      <Image
-        src="/static/doggo.jpg"
-        alt={texts.alts.room}
-        width={150}
-        height={150}
-        className={styles.img}
-      />
     </main>
   );
 }
