@@ -3,7 +3,7 @@ export const texts = {
     lore: "About:"
   },
   descriptions: {
-    main: `Hey there! I'm Leon, your friendly software engineer. I've been building websites for years, and yes, I still get excited every time I see something I've coded actually working (and not breaking… most of the time)...`,
+    main: `Full-stack software engineer with 5+ years of experience building modern web products, specializing in Cloud and AI...`,
     continueReading: "Continue Reading"
   },
   alts: {
