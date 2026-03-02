@@ -3,8 +3,8 @@ export const texts = {
     about: "About:",
   },
   lore: {
-    intro: `I'm a full-stack software engineer with 5+ years of experience, focused on Cloud and AI. I build modern web products end-to-end from responsive frontends to scalable backends and I care a lot about the fundamentals: performance, reliability, and clean architecture.`,
-    story: `Lately I've been especially interested in using cloud-native patterns to keep systems easy to run, and adding AI features that feel genuinely useful (not gimmicky). I like shipping practical solutions, iterating quickly, and leaving codebases simpler than I found them.`,
+    intro: `I'm a full-stack software engineer with 5+ years of experience building modern web products end-to-end. I work across frontend, backend, and cloud deployment, shipping apps that are fast and reliable.`,
+    story: `Recently, I've been adding AI-driven features like smarter search, automation, and content tools, and integrating them into real products with the right guardrails for performance and cost.`,
     experience: ``,
     currentStatus: ``,
     conclusion: ``,
