@@ -83,7 +83,7 @@ export default function App() {
             </h1>
 
             <p className="font-inter max-w-[34rem] text-lg leading-8 text-[#2a2a2a]">
-              Full-stack engineer focused on building AI-powered systems, solid product architecture, and software that makes teams faster, operations smoother, and products easier to scale.
+              Software engineer focused on building AI-powered systems, solid product architecture, and software that makes teams faster, operations smoother, and products easier to scale.
             </p>
 
             <div className="mt-8 flex flex-wrap gap-3">
