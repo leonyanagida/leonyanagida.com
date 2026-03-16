@@ -1,12 +1,24 @@
-import { Press_Start_2P, Radio_Canada } from "next/font/google";
- 
-export const pressStart2P = Press_Start_2P({
-  subsets: ["latin"],
-  weight: "400",
-});
- 
+import {
+  IBM_Plex_Mono,
+  Inter,
+  Space_Grotesk,
+} from "next/font/google";
 
-export const radio_canada = Radio_Canada({
+export const inter = Inter({
   subsets: ["latin"],
-  weight: "400",
+  variable: "--font-inter",
+  display: "swap",
+});
+
+export const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-space-grotesk",
+  display: "swap",
+});
+
+export const ibmPlexMono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--font-ibm-plex-mono",
+  display: "swap",
 });
