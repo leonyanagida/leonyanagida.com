@@ -192,19 +192,18 @@ export default function App() {
               , engineering depth, and business needs intersect.
             </p>
             <p className="mb-6 text-lg leading-9 text-[#2a2a2a]">
-              I like owning enough of the system to make better decisions, move
-              quickly, and build solutions that are both practical and well
-              considered.
+                I like working close to both the product and the code, because
+                it makes it easier to spot tradeoffs early, keep momentum, and
+                make better decisions as the work takes shape.
             </p>
             <p className="mb-6 text-lg leading-9 text-[#2a2a2a]">
-              I&apos;m especially interested in work that improves workflows,
-              reduces unnecessary complexity, and creates real leverage through
-              better software and thoughtful AI integration.
+                That usually leads me toward projects that improve workflows,
+                remove unnecessary complexity, and use AI where it actually adds
+                leverage instead of noise.
             </p>
             <p className="text-lg leading-9 text-[#2a2a2a]">
-              For me, good engineering is not just about shipping features. It
-              is about building systems and experiences that stay useful,
-              reliable, and clear over time.
+                In the end, I want to build software that solves a real problem,
+                stays understandable, and keeps being useful as it grows.
             </p>
           </div>
 
@@ -396,10 +395,6 @@ export default function App() {
               <span className="h-2 w-2 rounded-full bg-[#00ff66]" />
               Online Now
             </div>
-
-            <blockquote className="font-space mt-10 border-t-2 border-[#e8e8e3] pt-8 text-2xl font-medium leading-9 tracking-[-0.02em] text-[#2a2a2a] italic">
-              &ldquo;The best products don&apos;t just work well. They make the right thing feel obvious.&rdquo;
-            </blockquote>
           </div>
         </div>
 
