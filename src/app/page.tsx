@@ -83,9 +83,8 @@ export default function App() {
             </h1>
 
             <p className="font-inter max-w-[34rem] text-lg leading-8 text-[#2a2a2a]">
-              Software engineer focused on building AI-powered systems, solid product architecture, and software that makes teams faster, operations smoother, and products easier to scale.
+              Software engineer focused on building AI-powered systems that improve team efficiency, and help products grow.
             </p>
-
             <div className="mt-8 flex flex-wrap gap-3">
               <a
                 href="#contact"
@@ -143,10 +142,6 @@ export default function App() {
                 ))}
               </div>
             </div>
-
-            <div className="absolute right-[8%] bottom-[3%] rotate-[7deg] bg-[#ff3300] px-4 py-3 text-sm font-semibold uppercase tracking-[0.06em] text-white shadow-[4px_4px_0_#0a0a0a] sm:bottom-[8%]">
-              5+ Years XP
-            </div>
           </div>
         </section>
 
@@ -164,7 +159,7 @@ export default function App() {
                 <span>✦</span>
                 <span>Node.js</span>
                 <span>✦</span>
-                <span>AWS / Cloud</span>
+                <span>AWS Cloud</span>
                 <span>✦</span>
                 <span>AI Integration</span>
                 <span>✦</span>
@@ -185,25 +180,26 @@ export default function App() {
         <section className="grid gap-[2px] bg-[#0a0a0a] lg:grid-cols-2">
           <div className="bg-[#fafaf8] px-5 pt-12 pb-48 sm:px-8 lg:px-12 xl:px-16">
             <p className="mb-6 text-xl font-medium leading-9 text-[#0a0a0a] sm:text-2xl sm:leading-10">
-              I do my best work where{' '}
-              <span className="inline-block rotate-[-1deg] bg-[#ff3300] px-2 py-0.5 text-white">
-                product thinking
+              I do my best work when I can bring the{' '}
+              <span className="inline-block rotate-[-1deg] bg-[#0a0a0a] px-2 py-0.5 text-[#fafaf8]">
+                product
               </span>
-              , engineering depth, and business needs intersect.
+              , technical, and business sides together.
             </p>
             <p className="mb-6 text-lg leading-9 text-[#2a2a2a]">
-                I like working close to both the product and the code, because
-                it makes it easier to spot tradeoffs early, keep momentum, and
-                make better decisions as the work takes shape.
+              I tend to work best when I can stay close to both the product and
+              the code, because that makes it easier to spot tradeoffs early and
+              keep the work moving in the right direction.
             </p>
             <p className="mb-6 text-lg leading-9 text-[#2a2a2a]">
-                That usually leads me toward projects that improve workflows,
-                remove unnecessary complexity, and use AI where it actually adds
-                leverage instead of noise.
+              The projects I enjoy most are the ones that simplify workflows,
+              remove unnecessary friction, and turn a good idea into something
+              people actually use.
             </p>
             <p className="text-lg leading-9 text-[#2a2a2a]">
-                In the end, I want to build software that solves a real problem,
-                stays understandable, and keeps being useful as it grows.
+              In the end, I care about building software that solves a real
+              problem, stays understandable, and continues to be useful as it
+              grows.
             </p>
           </div>
 
@@ -268,7 +264,7 @@ export default function App() {
                   Now focused
                 </div>
                 <div className="text-base leading-7">
-                  AI-powered product systems, practical automation, and sharper user experiences.
+                  AWS Cloud Certifications
                 </div>
               </div>
             </div>
