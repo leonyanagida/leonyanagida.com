@@ -7,13 +7,13 @@ import { ArrowRight } from 'lucide-react'
 
 export default function App() {
   const expertise = [
+    // {
+    //   title: 'AI product integration',
+    //   detail:
+    //     'Building practical AI features, internal tools, and automation workflows that improve efficiency, reduce manual work, and create real business value.',
+    // },
     {
-      title: 'AI product integration',
-      detail:
-        'Building practical AI features, internal tools, and automation workflows that improve efficiency, reduce manual work, and create real business value.',
-    },
-    {
-      title: 'Full-stack systems',
+      title: 'Full-stack web systems',
       detail:
         'Designing and developing complete product flows across frontend, backend, APIs, and application logic with a focus on maintainability and speed.',
     },
@@ -69,7 +69,7 @@ export default function App() {
       </header>
 
       <main id="top">
-        <section className="grid min-h-[calc(100vh-84px)] border-b-2 border-[#0a0a0a] lg:grid-cols-2">
+        {/* <section className="grid min-h-[calc(100vh-84px)] border-b-2 border-[#0a0a0a] lg:grid-cols-2">
           <div className="relative flex flex-col justify-center border-b-2 border-[#0a0a0a] px-5 py-12 sm:px-8 lg:border-r-2 lg:border-b-0 lg:px-12 xl:px-16">
             <div className="font-mono-custom mb-10 inline-flex items-center gap-3 text-[11px] uppercase tracking-[0.12em] text-[#2a2a2a]">
               <span className="h-px w-10 bg-[#ff3300]" />
@@ -143,7 +143,7 @@ export default function App() {
               </div>
             </div>
           </div>
-        </section>
+        </section> */}
 
         <section className="overflow-hidden border-b-2 border-[#0a0a0a] bg-[#0a0a0a] py-4 text-[#fafaf8]">
           <motion.div
@@ -153,17 +153,17 @@ export default function App() {
           >
             {Array.from({ length: 3 }).map((_, i) => (
               <React.Fragment key={i}>
+                <span>Full-Stack Web Development</span>
+                <span>✦</span>
                 <span>React / Next.js</span>
                 <span>✦</span>
                 <span>TypeScript</span>
                 <span>✦</span>
-                <span>Node.js</span>
-                <span>✦</span>
                 <span>AWS Cloud</span>
                 <span>✦</span>
-                <span>AI Integration</span>
+                <span>System Architecture Design</span>
                 <span>✦</span>
-                <span>System Thinking</span>
+                <span>Product & Customer Focused</span>
                 <span>✦</span>
               </React.Fragment>
             ))}
@@ -180,7 +180,9 @@ export default function App() {
         <section className="grid gap-[2px] bg-[#0a0a0a] lg:grid-cols-2">
           <div className="bg-[#fafaf8] px-5 pt-12 pb-48 sm:px-8 lg:px-12 xl:px-16">
             <p className="mb-6 text-xl font-medium leading-9 text-[#0a0a0a] sm:text-2xl sm:leading-10">
-              I do my best work when I can bring the{' '}
+              Hi, I'm Leon. 
+              <br />
+              I am a Software Engineer. I do my best work when I can bring the{' '}
               <span className="inline-block rotate-[-1deg] bg-[#0a0a0a] px-2 py-0.5 text-[#fafaf8]">
                 product
               </span>
@@ -197,8 +199,8 @@ export default function App() {
               people actually use.
             </p>
             <p className="text-lg leading-9 text-[#2a2a2a]">
-              In the end, I care about building software that solves a real
-              problem, stays understandable, and continues to be useful as it
+              I care about building software that solves a real
+              problem and continues to be useful as it
               grows.
             </p>
           </div>
@@ -282,7 +284,7 @@ export default function App() {
               Chrome Piano
             </h2>
             <p className="mt-6 max-w-[34rem] text-lg leading-9 text-white/80">
-              Chrome Piano is a fun side project I built in 2017 to learn how to make interactive web applications.
+              Chrome Piano is a fun side project I built in 2017
             </p>
 
             <div className="mt-10 flex flex-wrap gap-10 border-t border-white/10 pt-8">
@@ -356,7 +358,7 @@ export default function App() {
               something together
             </h2>
             <p className="mt-4 text-lg leading-8 text-[#2a2a2a]">
-              Strong product ideas, better interfaces, cleaner systems, or AI
+              Strong product ideas, better interfaces, cleaner systems, and
               workflows that actually help.
             </p>
 
