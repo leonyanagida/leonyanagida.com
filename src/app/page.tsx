@@ -180,7 +180,7 @@ export default function App() {
         <section className="grid gap-[2px] bg-[#0a0a0a] lg:grid-cols-2">
           <div className="bg-[#fafaf8] px-5 pt-12 pb-48 sm:px-8 lg:px-12 xl:px-16">
             <p className="mb-6 text-xl font-medium leading-9 text-[#0a0a0a] sm:text-2xl sm:leading-10">
-              Hi, I'm Leon. 
+              Hi, I&apos;m Leon. 
               <br />
               I am a Software Engineer. I do my best work when I can bring the{' '}
               <span className="inline-block rotate-[-1deg] bg-[#0a0a0a] px-2 py-0.5 text-[#fafaf8]">
