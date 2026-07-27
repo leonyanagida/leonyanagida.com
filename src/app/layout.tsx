@@ -6,7 +6,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Leon Yanagida | Software Engineer",
   description:
-    "Full-stack engineer building AI-powered systems, product experiences, and reliable cloud-backed software.",
+    "Full-stack engineer focused on building web applications and reliable cloud-backed software.",
   metadataBase: new URL("https://www.leonyanagida.com"),
   icons: {
     icon: "/favicon.ico",
