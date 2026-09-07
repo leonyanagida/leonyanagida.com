@@ -9,7 +9,9 @@ export const metadata: Metadata = {
     "Full-stack engineer focused on building web applications and reliable cloud-backed software.",
   metadataBase: new URL("https://www.leonyanagida.com"),
   icons: {
-    icon: "/favicon.ico",
+    icon: "/icon.svg",
+    shortcut: "/icon.svg",
+    apple: "/apple-icon.svg",
   },
 };
 

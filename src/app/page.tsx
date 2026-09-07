@@ -1,411 +1,182 @@
-"use client"
+"use client";
 
-import React from 'react'
-import Image from 'next/image'
-import { AnimatePresence, motion } from 'framer-motion'
-import { ArrowRight } from 'lucide-react'
+import { useCallback, useEffect, useRef, useState } from "react";
+import MusicExperience, { type NoteEvent } from "./music-experience";
+import { ArrowDown, ArrowUpRight, Pause, Play, Plus } from "lucide-react";
 
-export default function App() {
-  const expertise = [
-    // {
-    //   title: 'AI product integration',
-    //   detail:
-    //     'Building practical AI features, internal tools, and automation workflows that improve efficiency, reduce manual work, and create real business value.',
-    // },
-    {
-      title: 'Full-stack web systems',
-      detail:
-        'Designing and developing complete product flows across frontend, backend, APIs, and application logic with a focus on maintainability and speed.',
-    },
-    {
-      title: 'Architecture and infrastructure',
-      detail:
-        'Designing the technical foundation behind products, from system architecture and APIs to deployment, environments, and monitoring, so software stays reliable, scalable, and production-ready.',
-    },
-    {
-      title: 'Product-minded engineering',
-      detail:
-        'Bringing together engineering, usability, and business context to build solutions that are not only functional, but also clear and effective.',
-    },
-  ]
+function Field({ paused, noteEvent, performing, onActivate }: {
+  paused: boolean; noteEvent: NoteEvent; performing: boolean; onActivate: () => void;
+}) {
+  const canvas = useRef<HTMLCanvasElement>(null);
+  const signal = useRef({ note: -1, pulse: 0, sequence: 0 });
+  useEffect(() => {
+    signal.current.note = noteEvent.index;
+    signal.current.pulse = 1;
+    signal.current.sequence = noteEvent.sequence;
+  }, [noteEvent]);
 
-  const [openExpertise, setOpenExpertise] = React.useState(expertise[0].title)
+  useEffect(() => {
+    const el = canvas.current;
+    if (!el) return;
+    const ctx = el.getContext("2d");
+    if (!ctx) return;
+    let width = 0, height = 0, frame = 0, time = 0;
+    let visible = true;
+    const blend = 1;
+    const pointer = { x: .5, y: .5, inside: false };
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-  return (
-    <div className="min-h-screen bg-[#f5f5f0] text-[#0a0a0a] selection:bg-[#ff3300] selection:text-white">
-      <header className="sticky top-0 z-50 border-b-2 border-[#0a0a0a] bg-[#fafaf8]">
-        <div className="mx-auto flex max-w-[1400px] flex-col gap-3 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between gap-3 sm:contents">
-            <a
-              href="#top"
-              className="font-space relative inline-flex items-center gap-3 text-base font-semibold tracking-[-0.02em] text-[#0a0a0a] sm:text-lg"
-            >
-              <span>Leon Yanagida</span>
-            </a>
+    const draw = () => {
+      ctx.clearRect(0, 0, width, height);
+      const left = width * .07, span = width * .86;
+      const middle = height * .5;
+      const rowGap = Math.min(height * .064, 25);
+      // Eight piano pitches, each drawn as a bundle of harmonic traces.
+      // Page-wide musical notes excite these standing waves at fixed endpoints.
+      for (let row = 0; row < 8; row++) {
+        const chosen = signal.current.note === row;
+        const proximity = pointer.inside ? Math.max(0, 1 - Math.abs(pointer.y - row / 7) * 2) : 0;
+        const energy = chosen ? signal.current.pulse : 0;
+        for (let strand = 0; strand < 7; strand++) {
+          const depth = strand / 6;
+          ctx.beginPath();
+          for (let column = 0; column <= 88; column++) {
+            const u = column / 88;
+            const envelope = Math.pow(Math.sin(u * Math.PI), 1.25);
+            const harmonic = Math.sin(u * Math.PI * (2 + row * .24) - time * .8 + row * .43 + depth * .6);
+            const overtone = Math.sin(u * Math.PI * 6 + time * 1.2 + depth) * .18;
+            const ripple = Math.sin(u * Math.PI * (row + 2) - time * 7) * energy;
+            const amplitude = height * (.105 + proximity * .035 + energy * .06);
+            const x = left + u * span;
+            const latticeY = middle + (row - 3.5) * rowGap + (strand - 3) * 3;
+            const tilt = (u - .5) * height * -.23 * blend;
+            const y = latticeY + tilt + envelope * (harmonic + overtone + ripple * .45) * amplitude * blend;
+            if (column === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+          }
+          ctx.strokeStyle = `rgba(192,220,140,${(.04 + depth * .035 + energy * .15) * blend})`;
+          ctx.lineWidth = .65;
+          ctx.stroke();
+          for (let column = 0; column <= 88; column++) {
+            const u = column / 88;
+            const envelope = Math.pow(Math.sin(u * Math.PI), 1.25);
+            const harmonic = Math.sin(u * Math.PI * (2 + row * .24) - time * .8 + row * .43 + depth * .6);
+            const overtone = Math.sin(u * Math.PI * 6 + time * 1.2 + depth) * .18;
+            const ripple = Math.sin(u * Math.PI * (row + 2) - time * 7) * energy;
+            const amplitude = height * (.105 + proximity * .035 + energy * .06);
+            const x = left + u * span;
+            const y = middle + (row - 3.5) * rowGap + (strand - 3) * 3
+              + (u - .5) * height * -.23 * blend
+              + envelope * (harmonic + overtone + ripple * .45) * amplitude * blend;
+            const alpha = .17 + depth * .42 + energy * .3;
+            ctx.fillStyle = chosen ? `rgba(217,245,165,${alpha})` : `rgba(192,213,170,${alpha})`;
+            ctx.beginPath();
+            ctx.arc(x, y, .7 + depth * .55 + energy * .5, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        }
+      }
+    };
+    const resize = () => {
+      width = el.clientWidth;
+      height = el.clientHeight;
+      const dpr = Math.min(window.devicePixelRatio, 2);
+      el.width = width * dpr;
+      el.height = height * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      draw();
+    };
+    let previous = 0, previousSequence = signal.current.sequence;
+    const tick = (now: number) => {
+      const delta = Math.min((now - previous) / 1000, .04);
+      const animate = !paused && !reduce.matches;
+      const changed = previousSequence !== signal.current.sequence;
+      if (visible && !document.hidden && (animate || changed)) {
+        if (animate) {
+          time += delta;
+          signal.current.pulse *= Math.exp(-delta * 1.8);
+        } else {
+          signal.current.pulse = 0;
+        }
+        draw();
+      }
+      previousSequence = signal.current.sequence;
+      previous = now;
+      frame = requestAnimationFrame(tick);
+    };
+    const move = (event: PointerEvent) => {
+      const rect = el.getBoundingClientRect();
+      pointer.x = (event.clientX - rect.left) / width;
+      pointer.y = (event.clientY - rect.top) / height;
+      pointer.inside = true;
+    };
+    const leave = () => { pointer.inside = false; };
+    const ro = new ResizeObserver(resize);
+    const io = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; });
+    ro.observe(el); io.observe(el);
+    el.addEventListener("pointermove", move);
+    el.addEventListener("pointerleave", leave);
+    resize(); frame = requestAnimationFrame(tick);
+    return () => {
+      cancelAnimationFrame(frame); ro.disconnect(); io.disconnect();
+      el.removeEventListener("pointermove", move);
+      el.removeEventListener("pointerleave", leave);
+    };
+  }, [paused]);
 
-            <div className="font-mono-custom order-2 flex items-center gap-3 text-[9px] uppercase tracking-[0.08em] text-[#2a2a2a] sm:order-3 sm:gap-2 sm:text-[11px]">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#00ff66] shadow-[0_0_0_2px_#fafaf8,0_0_0_4px_#00ff66] sm:h-2 sm:w-2" />
-              <span>Online Now</span>
-            </div>
-          </div>
+  return <div className="harmonic-field">
+    <div className="field-heading"><span className="mono">FIG. 01 — CODE INTO MUSIC</span></div>
+    <canvas ref={canvas} className="field" aria-hidden="true" />
+    <div className="field-invitation"><button className="music-enter" onClick={onActivate} aria-pressed={performing}><span>{performing ? "Back to the quiet" : "What if this page could play?"}</span><span aria-hidden="true">{performing ? "×" : "↗"}</span></button><p className="mono">{performing ? "A little code. A little music. All you." : "A small experiment, waiting for you."}</p></div>
+  </div>;
+}
 
-          <div className="order-3 -mx-4 border-t border-[#0a0a0a]/10 px-4 pt-3 sm:order-2 sm:mx-0 sm:border-0 sm:px-0 sm:pt-0">
-            <nav className="flex w-full items-center justify-between gap-3 text-[11px] font-medium uppercase tracking-[0.08em] text-[#2a2a2a] sm:w-auto sm:flex-wrap sm:justify-start sm:gap-8 sm:text-[12px]">
-              <a
-                href="#about"
-                className="flex min-w-0 flex-1 items-center justify-center border-b border-transparent px-0 py-1.5 text-center transition hover:text-[#0a0a0a] hover:border-[#ff3300] sm:min-w-fit sm:flex-none sm:justify-start sm:py-0"
-              >
-                About
-              </a>
-              <a
-                href="#contact"
-                className="flex min-w-0 flex-1 items-center justify-center border-b border-transparent px-0 py-1.5 text-center transition hover:text-[#0a0a0a] hover:border-[#ff3300] sm:min-w-fit sm:flex-none sm:justify-start sm:py-0"
-              >
-                Contact
-              </a>
-            </nav>
-          </div>
-        </div>
-      </header>
+const expertise = [
+  { title: "Full-stack web systems", tag: "FROM INTERFACE TO API", detail: "I design and develop complete product flows across frontend, backend, APIs, and application logic—with a focus on maintainability and speed.", tools: "React / Next.js / TypeScript" },
+  { title: "Architecture & infrastructure", tag: "THE INVISIBLE FOUNDATION", detail: "From system architecture and APIs to deployment, environments, and monitoring, I build the foundations that keep software reliable and ready to grow.", tools: "AWS Cloud / System architecture" },
+  { title: "Product-minded engineering", tag: "THE BIGGER PICTURE", detail: "Engineering, usability, and business context belong in the same conversation. I bring them together to build solutions that are clear, effective, and useful.", tools: "Product thinking / Customer focus" },
+];
 
-      <main id="top">
-        {/* <section className="grid min-h-[calc(100vh-84px)] border-b-2 border-[#0a0a0a] lg:grid-cols-2">
-          <div className="relative flex flex-col justify-center border-b-2 border-[#0a0a0a] px-5 py-12 sm:px-8 lg:border-r-2 lg:border-b-0 lg:px-12 xl:px-16">
-            <div className="font-mono-custom mb-10 inline-flex items-center gap-3 text-[11px] uppercase tracking-[0.12em] text-[#2a2a2a]">
-              <span className="h-px w-10 bg-[#ff3300]" />
-              <span>Software Engineer / Product Builder</span>
-            </div>
+function Focus() {
+  const [open, setOpen] = useState<number | null>(0);
+  return <div className="focus"><div className="focus-caption"><span className="mono">HOW I THINK & BUILD</span><p>Many moving parts.<br/>One considered whole.</p><div className="learning mono"><span className="status-dot"/> CURRENTLY EXPLORING<br/><strong>AWS Cloud Certifications</strong></div></div><div className="expertise">{expertise.map((item,i) => <div className={open === i ? "expertise-row is-open" : "expertise-row"} key={item.title}><button aria-expanded={open === i} aria-controls={`expertise-${i}`} onClick={() => setOpen(open === i ? null : i)}><span className="mono">0{i+1}</span><span>{item.title}</span><Plus size={20}/></button><div id={`expertise-${i}`} className="expertise-detail" hidden={open !== i}><span className="mono">{item.tag}</span><p>{item.detail}</p><span className="tools mono">{item.tools}</span></div></div>)}</div></div>;
+}
 
-            <h1 className="font-space mb-6 text-[clamp(3rem,9vw,5.8rem)] font-medium leading-[0.92] tracking-[-0.05em]">
-              <span className="block">Building</span>
-              <span className="block">digital</span>
-              <span className="block">products_</span>
-            </h1>
-
-            <p className="font-inter max-w-[34rem] text-lg leading-8 text-[#2a2a2a]">
-              Software engineer focused on building AI-powered systems that improve team efficiency, and help products grow.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <a
-                href="#contact"
-                className="group inline-flex items-center gap-3 border-2 border-[#0a0a0a] px-5 py-3 text-sm font-semibold uppercase tracking-[0.06em] text-[#0a0a0a] transition hover:-translate-x-[2px] hover:-translate-y-[2px] hover:bg-[#0a0a0a] hover:text-white hover:shadow-[4px_4px_0_#ff3300]"
-              >
-                <span className="transition group-hover:text-white">Contact</span>
-                <span className="transition group-hover:text-white">→</span>
-              </a>
-            </div>
-
-            <div className="mt-10 flex flex-wrap gap-8">
-              {[
-                ['5+', 'Years'],
-                ['Full-Stack', 'Builder'],
-                ['AI Architect', 'Systems'],
-              ].map(([value, label]) => (
-                <div key={label} className="flex flex-col gap-1">
-                  <span className="font-space text-3xl font-semibold leading-none">
-                    {value}
-                  </span>
-                  <span className="font-mono-custom text-[11px] uppercase tracking-[0.12em] text-[#2a2a2a]">
-                    {label}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="relative flex min-h-[28rem] items-center justify-center overflow-hidden bg-[#e8e8e3] px-5 py-10 sm:px-8 lg:px-12 xl:px-16">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_25%,rgba(0,102,255,0.10),transparent_25%),radial-gradient(circle_at_20%_80%,rgba(255,51,0,0.10),transparent_25%)]" />
-
-            <div className="relative w-full max-w-[34rem] border-[3px] border-[#0a0a0a] bg-[#f5f5f0] p-5 shadow-[12px_12px_0_rgba(0,0,0,0.12)] sm:p-7">
-              <div className="font-mono-custom mb-4 text-[11px] uppercase tracking-[0.12em] text-[#2a2a2a]">
-                signal_board_2026
-              </div>
-
-              <div className="grid gap-3">
-                {[
-                  ['ROLE', 'Full-stack software engineer'],
-                  ['FOCUS', 'AI / Architecture / Product systems'],
-                  ['VALUE', 'Automation / Scale / Impact'],
-                  ['STYLE', 'Practical, sharp, business-first'],
-                ].map(([key, value], index) => (
-                  <div
-                    key={key}
-                    className={`grid grid-cols-[92px_1fr] gap-3 border-2 border-[#0a0a0a] px-3 py-3 text-sm ${index === 2 ? 'bg-[#ff3300] text-white' : index === 1 ? 'bg-[#2b2b2b] text-white' : 'bg-[#fafaf8] text-[#0a0a0a]'}`}
-                  >
-                    <div className="font-mono-custom text-[11px] uppercase tracking-[0.12em] opacity-80">
-                      {key}
-                    </div>
-                    <div className="font-space font-medium tracking-[-0.02em]">
-                      {value}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section> */}
-
-        <section className="overflow-hidden border-b-2 border-[#0a0a0a] bg-[#0a0a0a] py-4 text-[#fafaf8]">
-          <motion.div
-            className="font-mono-custom flex gap-10 whitespace-nowrap px-6 text-[12px] uppercase tracking-[0.14em]"
-            animate={{ x: [0, -900] }}
-            transition={{ repeat: Infinity, duration: 20, ease: 'linear' }}
-          >
-            {Array.from({ length: 3 }).map((_, i) => (
-              <React.Fragment key={i}>
-                <span>Full-Stack Web Development</span>
-                <span>✦</span>
-                <span>React / Next.js</span>
-                <span>✦</span>
-                <span>TypeScript</span>
-                <span>✦</span>
-                <span>AWS Cloud</span>
-                <span>✦</span>
-                <span>System Architecture Design</span>
-                <span>✦</span>
-                <span>Product & Customer Focused</span>
-                <span>✦</span>
-              </React.Fragment>
-            ))}
-          </motion.div>
-        </section>
-
-        <div id="about" className="scroll-mt-24 bg-[#0a0a0a]">
-          <div className="font-space flex items-center gap-3 bg-[#fafaf8] px-5 py-6 text-sm font-semibold uppercase tracking-[0.12em] sm:px-8 lg:px-12 xl:px-16">
-            <span>About me</span>
-            <span className="text-[#2a2a2a]">↓</span>
-          </div>
-        </div>
-
-        <section className="grid gap-[2px] bg-[#0a0a0a] lg:grid-cols-2">
-          <div className="bg-[#fafaf8] px-5 pt-12 pb-48 sm:px-8 lg:px-12 xl:px-16">
-            <p className="mb-6 text-xl font-medium leading-9 text-[#0a0a0a] sm:text-2xl sm:leading-10">
-              Hi, I&apos;m Leon. 
-              <br />
-              I am a Software Engineer. I do my best work when I can bring the{' '}
-              <span className="inline-block rotate-[-1deg] bg-[#0a0a0a] px-2 py-0.5 text-[#fafaf8]">
-                product
-              </span>
-              , technical, and business sides together.
-            </p>
-            <p className="mb-6 text-lg leading-9 text-[#2a2a2a]">
-              I tend to work best when I can stay close to both the product and
-              the code, because that makes it easier to spot tradeoffs early and
-              keep the work moving in the right direction.
-            </p>
-            <p className="mb-6 text-lg leading-9 text-[#2a2a2a]">
-              The projects I enjoy most are the ones that simplify workflows,
-              remove unnecessary friction, and turn a good idea into something
-              people actually use.
-            </p>
-            <p className="text-lg leading-9 text-[#2a2a2a]">
-              I care about building software that solves a real
-              problem and continues to be useful as it
-              grows.
-            </p>
-          </div>
-
-          <div className="bg-[#f5f5f0] px-5 py-12 sm:px-8 lg:px-12 xl:px-16">
-            <div className="grid gap-10">
-              <div>
-                <div className="font-mono-custom mb-5 inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.12em] text-[#2a2a2a]">
-                  <span className="text-[#ff3300]">■</span>
-                  <span>Current focus</span>
-                </div>
-                <div className="grid gap-0.5">
-                  {expertise.map((item) => (
-                    <div key={item.title} className="border-b border-[#e8e8e3] py-1">
-                      <button
-                        type="button"
-                        onClick={() =>
-                          setOpenExpertise((current) =>
-                            current === item.title ? '' : item.title,
-                          )
-                        }
-                        className="flex w-full cursor-pointer items-center justify-between py-4 text-left text-lg transition hover:text-[#ff3300]"
-                        aria-expanded={openExpertise === item.title}
-                      >
-                        <span>{item.title}</span>
-                        <motion.span
-                          className="text-[#2a2a2a]"
-                          animate={{ rotate: openExpertise === item.title ? 45 : 0 }}
-                          transition={{ duration: 0.22, ease: 'easeOut' }}
-                        >
-                          +
-                        </motion.span>
-                      </button>
-                      <AnimatePresence initial={false}>
-                        {openExpertise === item.title ? (
-                          <motion.div
-                            key={item.title}
-                            initial={{ height: 0, opacity: 0 }}
-                            animate={{ height: 'auto', opacity: 1 }}
-                            exit={{ height: 0, opacity: 0 }}
-                            transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-                            className="overflow-hidden"
-                          >
-                            <motion.div
-                              initial={{ y: -8 }}
-                              animate={{ y: 0 }}
-                              exit={{ y: -8 }}
-                              transition={{ duration: 0.22, ease: 'easeOut' }}
-                              className="pb-4 pr-8 text-sm leading-7 text-[#2a2a2a]"
-                            >
-                              {item.detail}
-                            </motion.div>
-                          </motion.div>
-                        ) : null}
-                      </AnimatePresence>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="bg-[#0a0a0a] p-5 text-[#fafaf8]">
-                <div className="font-mono-custom mb-2 text-[11px] uppercase tracking-[0.12em] text-[#ff3300]">
-                  Now focused
-                </div>
-                <div className="text-base leading-7">
-                  AWS Cloud Certifications
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section id="work" className="grid gap-[2px] bg-[#0a0a0a] lg:grid-cols-2">
-          <div className="bg-[#0a0a0a] px-5 py-12 text-[#fafaf8] sm:px-8 lg:px-12 xl:px-16">
-            <div className="font-mono-custom mb-6 inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.12em] text-[#ff3300]">
-              <span>★</span>
-              <span>Featured project</span>
-            </div>
-
-            <h2 className="font-space text-[clamp(2.5rem,5vw,4.5rem)] font-medium leading-[1.05] tracking-[-0.03em]">
-              Chrome Piano
-            </h2>
-            <p className="mt-6 max-w-[34rem] text-lg leading-9 text-white/80">
-              Chrome Piano is a fun side project I built in 2017
-            </p>
-
-            <div className="mt-10 flex flex-wrap gap-10 border-t border-white/10 pt-8">
-              {[
-                ['100K+', 'Users'],
-                ['1M+', 'Downloads'],
-                ['∞', 'Fun'],
-              ].map(([value, label]) => (
-                <div key={label} className="flex flex-col gap-1">
-                  <span className="font-space text-5xl font-medium leading-none text-[#ff3300]">
-                    {value}
-                  </span>
-                  <span className="font-mono-custom text-[11px] uppercase tracking-[0.12em] text-white/45">
-                    {label}
-                  </span>
-                </div>
-              ))}
-            </div>
-
-            <a
-              href="https://chromewebstore.google.com/detail/chrome-piano/pjafcgbpdclmdeiipolenjgkikeldljl"
-              className="group mt-10 inline-flex items-center gap-3 border-2 border-[#fafaf8] px-5 py-3 text-sm font-semibold uppercase tracking-[0.06em] text-[#fafaf8] transition hover:-translate-x-[2px] hover:-translate-y-[2px] hover:bg-[#fafaf8] hover:text-[#0a0a0a] hover:shadow-[4px_4px_0_#ff3300]"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <span className="transition group-hover:text-[#0a0a0a]">
-                Download Chrome Extension
-              </span>
-              <ArrowRight className="h-4 w-4 transition group-hover:text-[#0a0a0a]" />
-            </a>
-          </div>
-
-          <div className="relative flex min-h-[28rem] items-center justify-center overflow-hidden bg-[#2a2a2a] px-4 py-8 sm:px-6 lg:px-8">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(255,51,0,0.16),transparent_26%),radial-gradient(circle_at_80%_70%,rgba(0,102,255,0.18),transparent_28%)]" />
-            <div className="relative mt-6 w-full max-w-[38rem]">
-              <a
-                href="https://chromewebstore.google.com/detail/chrome-piano/pjafcgbpdclmdeiipolenjgkikeldljl"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block"
-              >
-                  <Image
-                    src="/static/chrome-piano.svg"
-                  alt="Chrome Piano project preview"
-                    width={700}
-                    height={500}
-                  className="h-auto w-full drop-shadow-[0_20px_60px_rgba(0,0,0,0.45)]"
-                />
-              </a>
-              <div className="mx-auto mt-3 h-8 w-[80%] rounded-full bg-black/35 blur-2xl" />
-              <div className="absolute top-[12%] -left-5 text-3xl text-white/50">
-                ♪
-              </div>
-              <div className="absolute top-[46%] right-0 text-4xl text-white/45">
-                ♫
-              </div>
-              <div className="absolute bottom-[6%] left-[20%] text-2xl text-white/40">
-                ♬
-              </div>
-            </div>
-          </div>
-        </section>
-      </main>
-
-      <footer id="contact" className="border-t-2 border-[#0a0a0a] bg-[#fafaf8]">
-        <div className="grid gap-[2px] bg-[#0a0a0a] lg:grid-cols-2">
-          <div className="bg-[#fafaf8] px-5 py-12 sm:px-8 lg:px-12 xl:px-16">
-            <h2 className="font-space text-[clamp(2.4rem,4vw,4rem)] font-medium leading-[1.1] tracking-[-0.03em]">
-              Let&apos;s build
-              <br />
-              something together
-            </h2>
-            <p className="mt-4 text-lg leading-8 text-[#2a2a2a]">
-              Strong product ideas, better interfaces, cleaner systems, and
-              workflows that actually help.
-            </p>
-
-            <div className="mt-10 grid gap-2">
-              {[
-                ['Email', 'contact@leonyanagida.com'],
-              ].map(([label, value]) => (
-                <a
-                  key={label}
-                  href={`mailto:${value}`}
-                  className="group flex items-center justify-between border-b border-[#e8e8e3] py-5 text-xl font-medium tracking-[-0.02em] transition hover:text-[#ff3300]"
-                >
-                  <span className="flex items-center gap-4">
-                    <span className="font-space">{value}</span>
-                  </span>
-                  <span className="transition group-hover:translate-x-1 group-hover:-translate-y-1">↗</span>
-                </a>
-              ))}
-            </div>
-          </div>
-
-          <div className="bg-[#f5f5f0] px-5 py-12 sm:px-8 lg:px-12 xl:px-16">
-            <div className="text-sm leading-8 text-[#2a2a2a]">
-              <p>
-                <strong className="text-[#0a0a0a]">Location</strong>
-                <br />
-                Los Angeles / Remote
-              </p>
-            </div>
-
-            <div className="font-mono-custom mt-8 inline-flex items-center gap-2 bg-[#0a0a0a] px-4 py-3 text-sm uppercase tracking-[0.08em] text-[#fafaf8]">
-              <span className="h-2 w-2 rounded-full bg-[#00ff66]" />
-              Online Now
-            </div>
-          </div>
-        </div>
-
-        <div className="font-mono-custom flex flex-col gap-3 border-t-2 border-[#0a0a0a] px-5 py-6 text-sm text-[#2a2a2a] sm:flex-row sm:items-center sm:justify-between sm:px-8 lg:px-12 xl:px-16">
-          <span>© 2026 Leon Yanagida</span>
-          <button
-            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            className="text-left transition hover:text-[#ff3300] sm:text-right"
-          >
-            Back to top ↑
-          </button>
-        </div>
-      </footer>
-    </div>
-  )
+export default function Home() {
+  const [paused, setPaused] = useState(false);
+  const [performing, setPerforming] = useState(false);
+  const [noteEvent, setNoteEvent] = useState<NoteEvent>({ index: -1, sequence: 0 });
+  const enterButton = useRef<HTMLButtonElement | null>(null);
+  const onNote = useCallback((index: number) => setNoteEvent(previous => ({ index, sequence: previous.sequence + 1 })), []);
+  const exitMusic = useCallback(() => {
+    setPerforming(false);
+    enterButton.current?.focus({ preventScroll: true });
+  }, []);
+  const toggleMusic = useCallback(() => {
+    enterButton.current = document.querySelector<HTMLButtonElement>(".music-enter");
+    setPerforming(current => !current);
+  }, []);
+  const togglePause = useCallback(() => setPaused(current => !current), []);
+  useEffect(() => {
+    const elements = document.querySelectorAll(".about-heading, .about-grid, .focus, .work-title, .work-story, .hello");
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add("revealed"); observer.unobserve(entry.target); } });
+    }, { threshold: .08 });
+    elements.forEach(element => { element.classList.add("reveal"); observer.observe(element); });
+    return () => observer.disconnect();
+  }, []);
+  return <div className={`site${paused ? " motion-paused" : ""}${performing ? " music-enabled" : ""}`}>
+    <a className="skip-link" href="#about">Skip to content</a>
+    <header className="header"><a className="wordmark" href="#top" aria-label="Leon Yanagida home">ly<span>✳</span></a><nav aria-label="Main navigation"><a href="#about">The person <span>01</span></a><a href="#work">The play <span>02</span></a><a href="#contact">Say hello <ArrowUpRight size={15}/></a></nav></header>
+    <main id="top">
+      <section className="hero" aria-labelledby="hero-title">
+        <div className="hero-meta mono"><span><i className="status-dot"/> Software engineer & product thinker</span><span>Los Angeles / Remote</span></div>
+        <div className="hero-name"><h1 id="hero-title">Leon Yanagida<span className="name-dot">.</span></h1></div>
+        <div className="hero-composition"><div className="hero-statement"><span className="eyebrow">A curious mind. An open canvas.</span><h2>Somewhere<br/>between <em>logic</em><br/>and a little<br/><span className="magic">magic<span className="asterisk">✳</span></span></h2><p>I build software. I think in systems.<br/>And I leave room for a little play.</p></div><div className="field-wrap"><Field paused={paused} noteEvent={noteEvent} performing={performing} onActivate={toggleMusic}/></div></div>
+        <div className="hero-bottom"><a href="#about" className="explore mono"><span className="round-arrow"><ArrowDown size={19}/></span> A little more about me</a><span className="mono hero-footnote">PRODUCT INSTINCT. ENGINEERING MINDSET.</span><button className="motion-toggle mono" onClick={togglePause} aria-pressed={paused}>{paused ? <Play size={13}/> : <Pause size={13}/>} {paused ? "Resume motion" : "Pause motion"}</button></div>
+      </section>
+      <section className="about section-pad" id="about"><div className="section-label mono"><span>01 / THE PERSON</span><span>A LITTLE CONTEXT</span></div><h2 className="about-heading">Good software starts<br/>with <em>understanding.</em></h2><div className="about-grid"><span className="about-symbol" aria-hidden="true">↳</span><div><p className="intro">Hi, I’m Leon. I’m a software engineer who connects the product, technical, and business sides of an idea.</p><p>I do my best work close to both the product and the code. That’s where I can spot tradeoffs early, simplify workflows, and turn a good idea into something people actually use.</p><p>I care about solving a real problem and building something that stays useful as it grows.</p></div></div><Focus/></section>
+      <section className="work section-pad" id="work"><div className="section-label mono"><span>02 / THE PLAY</span><span>INDEPENDENT PROJECT · EST. 2017</span></div><div className="work-title"><span className="eyebrow">SERIOUSLY USEFUL. SIMPLY FUN.</span><h2>Chrome Piano<span aria-hidden="true">↗</span></h2></div><div className="work-story"><p>Not everything starts with a grand plan. Sometimes, you just want a piano in your browser.</p><div><p>A fun side project I built in 2017. A small idea that found its way into a lot of people’s everyday lives.</p><a className="text-link" href="https://chromewebstore.google.com/detail/chrome-piano/pjafcgbpdclmdeiipolenjgkikeldljl" target="_blank" rel="noopener noreferrer">Get the Chrome extension <ArrowUpRight size={18}/></a></div></div><div className="project-stats">{[["100K+","USERS"],["1M+","DOWNLOADS"],["∞","ROOM TO PLAY"]].map(([value,label]) => <div key={label}><span>{value}</span><span className="mono">{label}</span></div>)}</div></section>
+    </main><footer className="contact section-pad" id="contact"><div className="section-label mono"><span>03 / SAY HELLO</span><span>LOS ANGELES / REMOTE</span></div><a className="hello" href="mailto:contact@leonyanagida.com">Let’s talk<span>↗</span></a><a className="email" href="mailto:contact@leonyanagida.com">contact@leonyanagida.com</a><div className="footer-bottom mono"><span>© 2026 Leon Yanagida</span><a href="#top">Back to the beginning ↑</a></div></footer>
+    <MusicExperience enabled={performing} paused={paused} onExit={exitMusic} onPause={togglePause} onNote={onNote}/>
+  </div>;
 }

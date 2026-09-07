@@ -34,3 +34,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local production build while the preview is running
+/.next-production/
+
+# local deployment archives
+*.tar.gz
