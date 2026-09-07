@@ -170,7 +170,7 @@ export default function Home() {
     <main id="top">
       <section className="hero" aria-labelledby="hero-title">
         <div className="hero-meta mono"><span><i className="status-dot"/> Software engineer & product thinker</span><span>Los Angeles / Remote</span></div>
-        <div className="hero-name"><h1 id="hero-title">Leon Yanagida<span className="name-dot">.</span></h1></div>
+        <div className="hero-name"><h1 id="hero-title">Leon Yanagida</h1></div>
         <div className="hero-composition"><div className="hero-statement"><span className="eyebrow">A curious mind. An open canvas.</span><h2>Somewhere<br/>between <em>logic</em><br/>and a little<br/><span className="magic">magic<span className="asterisk"><span className="asterisk-mark" aria-hidden="true" /></span></span></h2><p>I build software. I think in systems.<br/>And I leave room for a little play.</p></div><div className="field-wrap"><Field paused={paused} noteEvent={noteEvent} performing={performing} onActivate={toggleMusic}/></div></div>
         <div className="hero-bottom"><a href="#about" className="explore mono"><span className="round-arrow"><ArrowDown size={19}/></span> A little more about me</a><span className="mono hero-footnote">PRODUCT INSTINCT. ENGINEERING MINDSET.</span><button className="motion-toggle mono" onClick={togglePause} aria-pressed={paused}>{paused ? <Play size={13}/> : <Pause size={13}/>} {paused ? "Resume motion" : "Pause motion"}</button></div>
       </section>
