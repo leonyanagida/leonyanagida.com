@@ -16,3 +16,9 @@
 @media(prefers-reduced-motion:reduce){.music-console{animation:none}}
 .music-atmosphere{opacity:1;z-index:61;mix-blend-mode:screen;mask-image:none;-webkit-mask-image:none}
 .melody-control{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:0 0 12px;padding:3px 0 9px}.melody-control>div>span:first-child{display:block;font-family:Georgia,serif;font-size:20px;font-style:italic;color:#d7e7c0}.melody-description{display:block;font-size:11px;color:var(--muted);margin-top:4px}.melody-control button{display:flex;align-items:center;gap:8px;border:1px solid #748561;background:#c0dc8c10;color:#d7e7c0;border-radius:5px;padding:10px 13px;font-size:12px;white-space:nowrap;min-height:42px}.melody-control button:hover{background:#c0dc8c25}.music-enabled .contact{padding-bottom:320px}@media(max-width:760px){.melody-control{gap:10px;margin-bottom:8px;padding-bottom:4px}.melody-control>div>span:first-child{font-size:18px}.melody-description{font-size:10px}.melody-control button{font-size:11px;padding:9px 11px}.music-enabled .contact{padding-bottom:335px}}
+/* Keep decorative marks consistent across platforms that substitute symbol glyphs with emoji. */
+.asterisk{display:inline-flex;align-items:center;justify-content:center}
+.asterisk-mark{display:inline-block;position:relative;width:.72em;height:.72em;flex:none;background:linear-gradient(currentColor,currentColor) center/14% 100% no-repeat}
+.asterisk-mark::before,.asterisk-mark::after{content:"";position:absolute;inset:0;background:linear-gradient(currentColor,currentColor) center/14% 100% no-repeat;transform:rotate(60deg)}
+.asterisk-mark::after{transform:rotate(-60deg)}
+.wordmark .asterisk-mark{width:1em;height:1em;color:var(--accent);margin-left:9px;vertical-align:top}
