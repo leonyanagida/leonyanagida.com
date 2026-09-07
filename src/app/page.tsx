@@ -131,7 +131,7 @@ function Field({ paused, noteEvent, performing, onActivate }: {
 }
 
 const expertise = [
-  { title: "Full-stack web systems", tag: "FROM INTERFACE TO API", detail: "I design and develop complete product flows across frontend, backend, APIs, and application logic—with a focus on maintainability and speed.", tools: "React / Next.js / TypeScript" },
+  { title: "Full-stack web systems", tag: "FROM INTERFACE TO API", detail: "I design and develop complete product flows across frontend, backend, APIs, and application logic with a focus on maintainability and speed.", tools: "React / Next.js / TypeScript" },
   { title: "Architecture & infrastructure", tag: "THE INVISIBLE FOUNDATION", detail: "From system architecture and APIs to deployment, environments, and monitoring, I build the foundations that keep software reliable and ready to grow.", tools: "AWS Cloud / System architecture" },
   { title: "Product-minded engineering", tag: "THE BIGGER PICTURE", detail: "Engineering, usability, and business context belong in the same conversation. I bring them together to build solutions that are clear, effective, and useful.", tools: "Product thinking / Customer focus" },
 ];
